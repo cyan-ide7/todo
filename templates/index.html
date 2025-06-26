@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To-Do App</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="container py-5">
+    <h2 class="mb-4">🗂️ To-Do List</h2>
+
+    <form method="POST" action="/add" class="mb-4">
+        <div class="row g-2">
+            <div class="col-md-4">
+                <input type="text" name="task" class="form-control" placeholder="Task..." required>
+            </div>
+            <div class="col-md-3">
+                <input type="text" name="category" class="form-control" placeholder="Category">
+            </div>
+            <div class="col-md-3">
+                <input type="date" name="due_date" class="form-control">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">Add</button>
+            </div>
+        </div>
+    </form>
+
+    <ul class="list-group">
+        {% for id, task, category, due_date, done in tasks %}
+            <li class="list-group-item d-flex justify-content-between align-items-center 
+                {% if done %}list-group-item-success{% endif %}">
+                <div>
+                    <strong>{{ task }}</strong> 
+                    {% if category %} <span class="badge bg-secondary">{{ category }}</span> {% endif %}
+                    {% if due_date %} <small class="text-muted">Due: {{ due_date }}</small> {% endif %}
+                </div>
+                <div>
+                    {% if not done %}
+                        <a href="/complete/{{ id }}" class="btn btn-sm btn-success">✔</a>
+                    {% endif %}
+                    <a href="/edit/{{ id }}" class="btn btn-sm btn-warning">✏</a>
+                    <a href="/delete/{{ id }}" class="btn btn-sm btn-danger">🗑</a>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
